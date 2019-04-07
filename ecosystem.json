@@ -1,0 +1,13 @@
+{
+    "apps": [
+        {
+            "name": "Sui Ning Bank",
+            "script": "server.bound.js"
+        }
+    ],
+    "deploy": {
+        "production": {
+            
+        }
+    }
+}
