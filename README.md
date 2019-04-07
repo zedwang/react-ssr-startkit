@@ -12,7 +12,7 @@ npm install
 npm start
 ```
 Then visit `localhost:8080` in your browser.
-** Deploy **
+## Deploy
 ```shell
 npm build
 ```
