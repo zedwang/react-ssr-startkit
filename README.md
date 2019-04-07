@@ -26,29 +26,23 @@ dist
 ```
 
 ## Tips
-The rematch hot reload
+The server side fetching data
 
-before
+client:
 ```js
-if (module.hot) {
-        module.hot.accept('./reducers', () => {
-           const nextReducers = require('./reducers')
-           store.replace(nextReducers);
-        });
-    }
+class Home extends React.Component {
+    // some logic
+}
+Home.serverFetch = {type: 'repos/fetchData'};
 ```
-now
+sever:
 ```js
-if (module.hot) {
-        module.hot.accept('./models', () => {
-            Object.keys(models).forEach(modelKey => {
-                console.log(`Reloading model ${modelKey}`);
-                model({
-                    name: modelKey,
-                    ...models[modelKey]
-                });
-            });
-        });
-    }
-
+routes
+    .filter(route => matchPath(req.url, route))
+    .map(route => route.component)
+    .filter(comp => comp.serverFetch)
+    .map(comp => {
+        const {type, payload} = comp.serverFetch;
+        return dispatch({type, payload});
+    });
 ```
