@@ -1,6 +1,4 @@
 import path from "path";
-import dns from 'dns';
-import os from 'os';
 import express from "express";
 import dotenv from 'dotenv';
 import cheerio from 'cheerio';
@@ -27,10 +25,9 @@ if (NODE_ENV !== 'production') {
     fs = devMiddleware.fileSystem;
     app.use(morgan('dev'));
 } else {
-    // 此处的路径是相对于构建路径
+    // production
     staticPath = path.resolve(__dirname, "../public");
     app.use(express.static(staticPath));
-    // 仅仅记录错误日志
     var accessLogStream = fs.createWriteStream(path.join(__dirname, '../access.log'), { flags: 'a' });
     app.use(morgan('combined', { 
         skip: (req, res) => res.statusCode < 400,
@@ -38,24 +35,27 @@ if (NODE_ENV !== 'production') {
 }   
 
 // app.use("/api/**", proxy({
-//     target: 'https://github.com'
+//     target: 'https://xxx.com'
 // }));
 
-app.use('/api/**', (req, res, next) => {
-    console.log('use', req.url);
-    next();
+app.get('/api/**', (req, res) => {
+    const data = require('./api');
+    res.send(data);
 });
 
 app.get("/*", (req, res) => {
     const context = {};
     const {store} = createStore();
-
+    const {dispatch} = store;
     const dataRequirements =
         routes
             .filter(route => matchPath(req.url, route))
             .map(route => route.component)
             .filter(comp => comp.serverFetch)
-            .map(comp => store.dispatch(comp.serverFetch()));
+            .map(comp => {
+                const {type, payload} = comp.serverFetch;
+                return dispatch({type, payload});
+            });
 
     Promise.all(dataRequirements).then(() => {
         const jsx = (
@@ -76,9 +76,7 @@ app.get("/*", (req, res) => {
 
 
 app.listen(PORT, () => {
-    dns.lookup(os.hostname(), (err, address) => {
-        console.log(`server runing at http://${address}:${PORT}...`);
-    });
+    console.log(`server runing at http://localhost:${PORT}...`);
 });
 
 function htmlTemplate(reactDom, reduxState) {

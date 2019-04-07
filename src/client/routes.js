@@ -2,7 +2,6 @@ import Home from "./views/Home";
 import Search from "./views/Search";
 import Alerts from "./views/Alerts";
 import Profile from "./views/Profile";
-import MobileHome from './views/h5/Home';
 
 export default [
     {
@@ -24,9 +23,5 @@ export default [
         path: "/profile",
         component: Profile,
         exact: true,
-    },
-    {
-        path: "/h5",
-        component: MobileHome
     }
 ];

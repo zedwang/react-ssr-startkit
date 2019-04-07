@@ -23,7 +23,7 @@ const clientPlugins = [
     }),
     new HtmlWebpackPlugin(
         {
-            title: '企业资信报告平台-遂宁银行',
+            title: 'React SSR Startkit',
             filename: 'app.tpl',
             inject: true,
             template: 'app.html'

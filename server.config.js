@@ -27,9 +27,7 @@ module.exports = {
     plugins: [
         new webpack.BannerPlugin(banner),
     ],
-    externals: [webpackNodeExternals({
-        // whitelist: ['express', 'dotenv', 'node-html-parser', 'react', 'react-dom/server', 'react-router-dom', 'react-redux']
-    })],
+    externals: [webpackNodeExternals()],
     module: {
         rules: [
             {
