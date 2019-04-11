@@ -1,4 +1,4 @@
-import { init, model } from '@rematch/core';
+import { init } from '@rematch/core';
 import * as models from './models';
 
 export default (initialState) => {
@@ -15,17 +15,17 @@ export default (initialState) => {
         models
     });
 
-    // if (module.hot) {
-    //     module.hot.accept('./models', () => {
-    //         Object.keys(models).forEach(modelKey => {
-    //             console.log(`Reloading model ${modelKey}`);
-    //             model({
-    //                 name: modelKey,
-    //                 ...models[modelKey]
-    //             });
-    //         });
-    //     });
-    // }
+    if (module.hot) {
+        module.hot.accept('./models', () => {
+            Object.keys(models).forEach(modelKey => {
+                console.log(`Reloading model ${modelKey}`);
+                store.model({
+                    name: modelKey,
+                    ...models[modelKey]
+                });
+            });
+        });
+    }
 
     return {store};
 };

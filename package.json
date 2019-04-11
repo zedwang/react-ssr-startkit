@@ -31,6 +31,9 @@
       "dist/*"
     ]
   },
+  "engines": {
+    "node": ">= 8.9.4"
+  },
   "dependencies": {
     "@rematch/core": "^1.1.0",
     "cheerio": "^1.0.0-rc.2",
