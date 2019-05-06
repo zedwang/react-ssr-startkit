@@ -49,7 +49,7 @@ app.get("/*", (req, res) => {
     const {dispatch} = store;
     const dataRequirements =
         routes
-            .filter(route => matchPath(req.url, route))
+            .filter(route => matchPath(req.path, route))
             .map(route => route.component)
             .filter(comp => comp.serverFetch)
             .map(comp => {
